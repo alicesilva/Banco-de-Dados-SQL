@@ -35,7 +35,7 @@ CREATE TABLE Quarto (
 	numero INT,
 	tipo VARCHAR(15) NOT NULL,
 	vista VARCHAR(7) NOT NULL,
-	diaria NUMERIC(8,2) NOT NULL, 
+	valor_diaria NUMERIC(8,2) NOT NULL, 
    
 	PRIMARY KEY(numero)
 );
