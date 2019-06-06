@@ -1,16 +1,3 @@
-DROP TABLE Manuntencao;
-DROP TABLE Venda;
-DROP TABLE Reserva;
-DROP TABLE Hospedagem;
-DROP TABLE Telefone;
-DROP TABLE Equipamento;
-DROP TABLE Dependente;
-DROP TABLE Avaliacao;
-DROP TABLE Funcionario;
-DROP TABLE Produto;
-DROP TABLE Quarto;
-DROP TABLE Cliente;
-
 CREATE TABLE Cliente (
 	cpf CHAR(11),
 	email VARCHAR(50) NOT NULL, 
@@ -135,3 +122,16 @@ CREATE TABLE Venda(
     FOREIGN KEY (id_produto) REFERENCES Produto(id),
     FOREIGN KEY (numero_quarto) REFERENCES Quarto(numero)
 );
+
+DROP TABLE Manuntencao;
+DROP TABLE Venda;
+DROP TABLE Reserva;
+DROP TABLE Hospedagem;
+DROP TABLE Telefone;
+DROP TABLE Equipamento;
+DROP TABLE Dependente;
+DROP TABLE Avaliacao;
+DROP TABLE Funcionario;
+DROP TABLE Produto;
+DROP TABLE Quarto;
+DROP TABLE Cliente;
