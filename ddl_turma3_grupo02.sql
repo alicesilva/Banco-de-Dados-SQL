@@ -86,6 +86,7 @@ CREATE TABLE Equipamento (
 	
 	PRIMARY KEY(nome_equipamento, numero_quarto),
 	FOREIGN KEY(numero_quarto) REFERENCES Quarto(numero)
+
 );
 
 CREATE TABLE Hospedagem(
