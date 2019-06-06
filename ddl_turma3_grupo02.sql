@@ -95,8 +95,8 @@ CREATE TABLE Telefone (
 CREATE TABLE Equipamento (
 	nome_equipamento VARCHAR(10),
 	numero_quarto INT,
-
-    PRIMARY KEY(nome_equipamento, numero_quarto),
+	
+	PRIMARY KEY(nome_equipamento, numero_quarto),
 	FOREIGN KEY(numero_quarto) REFERENCES Quarto (numero)
 
 );
