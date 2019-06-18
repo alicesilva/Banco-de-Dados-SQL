@@ -22,19 +22,19 @@ INSERT INTO CLIENTE (cpf, email, nome, endereco, sexo, data_nasc)
 VALUES  ('71146985428', 'alice@gmail.com', 'Alice', 'Rua Jacarta', 'feminino', TO_DATE('16/12/1963', 'dd/mm/yyyy'));
 
 INSERT INTO CLIENTE (cpf, email, nome, endereco, sexo, data_nasc)
-VALUES  ('34268526323', 'danilo@gmail.com', 'Danilo', 'Avenida Alberto Maranhão', 'masculino', TO_DATE('23/08/1973', 'dd/mm/yyyy'));
+VALUES  ('34268526323', 'danilo@gmail.com', 'Pedro', 'Avenida Alberto Maranhão', 'masculino', TO_DATE('23/08/1973', 'dd/mm/yyyy'));
 
 INSERT INTO CLIENTE (cpf, email, nome, endereco, sexo, data_nasc)
-VALUES  ('65518164106', 'francisco@gmail.com', 'Francisco', 'Rua João de Barro', 'masculino', TO_DATE('17/05/1955', 'dd/mm/yyyy'));
+VALUES  ('65518164106', 'francisco@gmail.com', 'Pedro', 'Rua João de Barro', 'masculino', TO_DATE('17/05/1955', 'dd/mm/yyyy'));
 
 INSERT INTO CLIENTE (cpf, email, nome, endereco, sexo, data_nasc)
-VALUES  ('80138173346', 'bento@gmail.com', 'Bento', 'Rua da Alegria', 'masculino', TO_DATE('11/04/1961', 'dd/mm/yyyy'));
+VALUES  ('80138173346', 'bento@gmail.com', 'Pedro', 'Rua da Alegria', 'masculino', TO_DATE('11/04/1961', 'dd/mm/yyyy'));
 
 
 -- Insere funcionarios
 
 INSERT INTO FUNCIONARIO (cpf, nome, data_nasc, salario, funcao)
-VALUES  ('63581027372', 'Mariana', TO_DATE('14/12/1969', 'dd/mm/yyyy'), 2000, 'camareira');
+VALUES  ('63581027372', 'Mariana', TO_DATE('14/12/1969', 'dd/mm/yyyy'), 2000, 'camareiro');
 
 INSERT INTO FUNCIONARIO (cpf, nome, data_nasc, salario, funcao)
 VALUES  ('02262023646', 'Renato', TO_DATE('17/11/1964', 'dd/mm/yyyy'), 2000, 'camareiro');
@@ -61,7 +61,7 @@ INSERT INTO FUNCIONARIO (cpf, nome, data_nasc, salario, funcao)
 VALUES  ('68431746637', 'José', TO_DATE('10/11/1956', 'dd/mm/yyyy'), 4000, 'tecnico');
 
 INSERT INTO FUNCIONARIO (cpf, nome, data_nasc, salario, funcao)
-VALUES  ('12793628204', 'Malu', TO_DATE('18/09/1988', 'dd/mm/yyyy'), 4000, 'tecnica');
+VALUES  ('12793628204', 'Malu', TO_DATE('18/09/1988', 'dd/mm/yyyy'), 5000, 'tecnico');
 
 
 -- Insere quartos
@@ -282,7 +282,7 @@ INSERT INTO HOSPEDA VALUES (8, TO_DATE('21/08/1995', 'dd/mm/yyyy'), TO_DATE('23/
 
 INSERT INTO HOSPEDA VALUES (9, TO_DATE('18/05/1996', 'dd/mm/yyyy'), TO_DATE('20/04/1990', 'dd/mm/yyyy'),'65518164106', '977');
 
-INSERT INTO HOSPEDA VALUES (10, TO_DATE('28/04/2010', 'dd/mm/yyyy'), TO_DATE('31/04/2010', 'dd/mm/yyyy'),'80138173346', '169');
+INSERT INTO HOSPEDA VALUES (10, TO_DATE('18/05/1996', 'dd/mm/yyyy'), TO_DATE('20/04/1990', 'dd/mm/yyyy'), '80138173346', '169');
 
 -- Insere Venda
 INSERT INTO VENDA VALUES (1, 1, '913', TO_DATE('02/04/1990', 'dd/mm/yyyy'), 5);
@@ -303,7 +303,12 @@ INSERT INTO VENDA VALUES (8, 8, '466', TO_DATE('21/08/1995', 'dd/mm/yyyy'), 6);
 
 INSERT INTO VENDA VALUES (9, 9, '977', TO_DATE('18/05/1996', 'dd/mm/yyyy'), 8);
 
-INSERT INTO VENDA VALUES (10, 10, '169', TO_DATE('30/04/2010', 'dd/mm/yyyy'), 9);
+INSERT INTO VENDA VALUES (10, 1, '169', TO_DATE('18/05/1996', 'dd/mm/yyyy'), 1);
+INSERT INTO VENDA VALUES (11, 2, '169', TO_DATE('18/05/1996', 'dd/mm/yyyy'), 2);
+INSERT INTO VENDA VALUES (12, 3, '169', TO_DATE('18/05/1996', 'dd/mm/yyyy'), 3);
+INSERT INTO VENDA VALUES (13, 4, '169', TO_DATE('18/05/1996', 'dd/mm/yyyy'), 4);
+INSERT INTO VENDA VALUES (14, 5, '169', TO_DATE('18/05/1996', 'dd/mm/yyyy'), 5);
+INSERT INTO VENDA VALUES (15, 6, '169', TO_DATE('30/04/2010', 'dd/mm/yyyy'), 6);
 
 -- Insere Telefone
 INSERT INTO TELEFONE VALUES ('9866262626', '15193076670');

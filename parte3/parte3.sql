@@ -19,9 +19,26 @@ FROM FUNCIONARIO
 WHERE salario > 3000 AND funcao='técnico'
 
 -- 6
-
+SELECT funcao, COUNT(*)
+FROM FUNCIONARIO
+GROUP BY funcao, salario
+ORDER BY salario
 
 -- 7
-
+SELECT p.nome
+FROM PRODUTO p, CLIENTE c, VENDA v, HOSPEDA h
+WHERE c.nome = 'Pedro' AND c.cpf = h.cpf_cliente AND h.numero_quarto = v.numero_quarto AND v.id_produto = p.id
 
 -- 8
+SELECT c.nome, COUNT(*) as NUMHOSPEDAGEM
+FROM HOSPEDA h, CLIENTE c
+WHERE c.cpf = h.cpf_cliente AND c.sexo = 'masculino'
+GROUP BY c.nome
+HAVING COUNT(*) > 2
+
+--9
+
+-- 10
+SELECT f.nome
+FROM FUNCIONARIO f, HOSPEDA h
+WHERE f.cpf = h.cpf_cliente
