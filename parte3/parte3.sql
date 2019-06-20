@@ -5,6 +5,13 @@ WHERE d.cpf_cliente = c.cpf AND d.nome='Ana'
 
 -- 2
 
+SELECT c.nome, c.endereco
+FROM CLIENTE c
+WHERE c.endereco IN (SELECT c.endereco
+FROM CLIENTE c
+GROUP BY c.endereco
+HAVING COUNT(*) > 1)
+
 -- 3
 
 
