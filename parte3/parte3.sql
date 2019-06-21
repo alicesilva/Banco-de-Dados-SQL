@@ -11,6 +11,13 @@ FROM CLIENTE c
 GROUP BY c.endereco
 HAVING COUNT(*) > 1)
 
+SELECT c.nome, c.endereco
+FROM CLIENTE c
+WHERE c.endereco IN (SELECT c.endereco
+FROM CLIENTE c
+GROUP BY c.endereco
+HAVING COUNT(*) > 1)
+
 -- 3
 CREATE VIEW HospedagenQuarto(id_hospedagem, dia_check_in, dia_check_out, cpf_cliente, numero_quarto) AS
             SELECT h.id_hospedagem, h.dia_check_in, h.dia_check_out, h.cpf_cliente, h.numero_quarto
