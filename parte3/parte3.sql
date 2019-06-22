@@ -77,3 +77,28 @@ CREATE VIEW ProdutosLR(id, tipo, nome, valor) AS
 ALTER TABLE CLIENTE ADD CONSTRAINT verificaemail CHECK(REGEXP_LIKE(email, '\w+@[a-z0-9]+\.[a-z]+'))
 
 -- 14
+CREATE OR REPLACE TRIGGER valida_cpf
+BEFORE INSERT
+  on DEPENDENTE
+  FOR EACH ROW
+
+BEGIN
+    IF(:new.cpf = :new.cpf_cliente) THEN
+      RAISE_APPLICATION_ERROR(-20000,'O cpf do dependente não pode ser igual ao do cliente');
+    END IF;          
+
+END;
+
+-- 15
+CREATE OR REPLACE TRIGGER delete_dependente
+BEFORE DELETE
+  on CLIENTE
+  FOR EACH ROW 
+
+BEGIN
+
+DELETE FROM DEPENDENTE d WHERE d.cpf_cliente = :OLD.cpf;
+    
+END;
+
+
