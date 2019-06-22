@@ -77,28 +77,81 @@ CREATE VIEW ProdutosLR(id, tipo, nome, valor) AS
 ALTER TABLE CLIENTE ADD CONSTRAINT verificaemail CHECK(REGEXP_LIKE(email, '\w+@[a-z0-9]+\.[a-z]+'))
 
 -- 14
-CREATE OR REPLACE TRIGGER valida_cpf
+CREATE OR REPLACE TRIGGER verifica_cpf
 BEFORE INSERT
   on DEPENDENTE
-  FOR EACH ROW
+  FOR EACH ROW 
 
 BEGIN
     IF(:new.cpf = :new.cpf_cliente) THEN
-      RAISE_APPLICATION_ERROR(-20000,'O cpf do dependente não pode ser igual ao do cliente');
-    END IF;          
-
+      RAISE_APPLICATION_ERROR(-20000,'O dependente não pode ter cpf igual o cliente.');
+    END IF;
 END;
-
 -- 15
-CREATE OR REPLACE TRIGGER delete_dependente
+CREATE OR REPLACE TRIGGER Delete_Dependente
 BEFORE DELETE
   on CLIENTE
   FOR EACH ROW 
 
 BEGIN
-
 DELETE FROM DEPENDENTE d WHERE d.cpf_cliente = :OLD.cpf;
-    
 END;
+-- 16
+CREATE OR REPLACE PROCEDURE atualizaPrecosDiariasByTipo(percentual FLOAT, tipoQ QUARTO.tipo%TYPE) AS
+  CURSOR c_quarto IS 
+    SELECT numero FROM QUARTO WHERE tipo = tipoQ FOR UPDATE;
+    num QUARTO.numero%TYPE;
+BEGIN
+  OPEN c_quarto;
+  LOOP
+    FETCH c_quarto INTO num;
+    EXIT WHEN c_quarto%notfound;
+    UPDATE QUARTO SET valor_diaria = (valor_diaria * (percentual/100)) + valor_diaria  WHERE tipo = tipoQ;
+  END LOOP;
 
+  CLOSE c_quarto;
+END;
+/
+-- Executa procedure
+DECLARE
+  percentual NUMBER;
+  tipo QUARTO.tipo%TYPE;
+BEGIN
+  atualizaPrecosDiariasByTipo(percentual, tipo);
+END;
+-- 17
+CREATE OR REPLACE PROCEDURE getManutencoesByPeriodo(
+	   dataInicial IN MANUTENCAO.data%TYPE,
+           dataFinal IN MANUTENCAO.data%TYPE,
+	   c_man OUT SYS_REFCURSOR)
+IS
+BEGIN
 
+  OPEN c_man FOR
+  SELECT * FROM MANUTENCAO WHERE data BETWEEN dataInicial AND dataFinal;
+ 
+END;
+/
+-- Executa procedure
+DECLARE 
+  dbManutencaoCursor SYS_REFCURSOR;
+  dbManutencao MANUTENCAO%ROWTYPE;
+  dataInicial DATE;
+  dataFinal DATE;
+BEGIN
+  
+  getManutencoesByPeriodo(dataInicial, dataFinal, dbManutencaoCursor);
+  
+  LOOP
+    
+	FETCH dbManutencaoCursor INTO dbManutencao;
+	
+    EXIT WHEN dbManutencaoCursor%NOTFOUND;
+    dbms_output.put_line('ID_MANUTENCAO, NUMERO_QUARTO: '||dbManutencao.id_manutencao);
+    dbms_output.put_line('ID_MANUTENCAO, NUMERO_QUARTO: '||dbManutencao.numero_quarto);
+  
+  END LOOP;
+
+  CLOSE dbManutencaoCursor;
+  
+END;
