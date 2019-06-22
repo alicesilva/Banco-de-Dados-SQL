@@ -48,7 +48,7 @@ SELECT c.*
 FROM CLIENTE c
 WHERE (SELECT COUNT(*)
        FROM HOSPEDA h
-       WHERE c.cpf = h.cpf_cliente) > 2
+       WHERE c.cpf = h.cpf_cliente) > 2 AND c.sexo = 'masculino'
 
 /*9.Liste os quartos que não foram hospedados nas datas reservadas.*/
 SELECT q.*
