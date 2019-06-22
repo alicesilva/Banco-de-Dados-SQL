@@ -1,4 +1,12 @@
-/*1.Liste os endereços dos clientes que possuem algum dependente com “Ana” no nome*/
+/*Grupo 2
+Alice Fernandes
+Anarco Quaresma Zeferino Nascimento
+Aramis Sales Araujo
+Eveline de Carvalho
+Mainara Cavalcanti de Farias
+*/
+
+/*1. Liste os endereços dos clientes que possuem algum dependente com “Ana” no nome*/
 SELECT c.endereco
 FROM CLIENTE c, DEPENDENTE d
 WHERE d.cpf_cliente = c.cpf AND d.nome LIKE '%Ana%'
@@ -28,7 +36,7 @@ SELECT *
 FROM FUNCIONARIO
 WHERE salario > 3000 AND funcao='técnico'
 
-/* 6. Liste o número de funcionários de cada função por ordem crescente de salário.*/
+/*6. Liste o número de funcionários de cada função por ordem crescente de salário.*/
 SELECT funcao, COUNT(*)
 FROM FUNCIONARIO
 GROUP BY funcao, salario
@@ -43,40 +51,46 @@ WHERE c.nome = 'Pedro'
       AND v.data BETWEEN h.dia_check_in AND h.dia_check_out
       AND v.id_produto = p.id
 
-/*8.Quais os clientes do sexo masculino que possuem mais que duas hospedagem.*/
+/*8. Quais os clientes do sexo masculino que possuem mais que duas hospedagem.*/
 SELECT c.*
 FROM CLIENTE c
 WHERE (SELECT COUNT(*)
        FROM HOSPEDA h
        WHERE c.cpf = h.cpf_cliente) > 2 AND c.sexo = 'masculino'
 
-/*9.Liste os quartos que não foram hospedados nas datas reservadas.*/
+/*9. Liste os quartos que não foram hospedados nas datas reservadas.*/
 SELECT q.*
 FROM QUARTO q, HOSPEDA h, RESERVA r
 WHERE q.numero = h.numero_quarto AND h.numero_quarto = r.numero_quarto
       AND h.dia_check_in <> r.dia_check_in AND h.dia_check_out <> r.dia_check_out
 
-/*10.Liste os funcionários que se hospedaram no hotel.*/
+/*10. Liste os funcionários que se hospedaram no hotel.*/
 SELECT f.*
 FROM FUNCIONARIO f, HOSPEDA h
 WHERE f.cpf = h.cpf_cliente
 
-/*11.Crie uma view que liste os clientes de forma decrescente pelo número de produtos comprados.*/
+/*11. Crie uma view que liste os clientes de forma decrescente pelo número de produtos comprados.*/
 CREATE VIEW ClienteCompra(cpf, nome, quantidade) AS
             SELECT c.cpf, c.nome, SUM(v.quantidade)
             FROM CLIENTE c, HOSPEDA h, VENDA v
             WHERE c.cpf = h.cpf_cliente AND h.numero_quarto=v.numero_quarto AND v.data BETWEEN h.dia_check_in AND h.dia_check_out
             GROUP BY c.cpf, c.nome
             ORDER BY SUM(v.quantidade) DESC
-/*Crie uma view que liste os produtos do tipo lavanderia ou restaurante que possuem valor entre R$ 10,00 e 50,00.*/
+	    
+/*12. Crie uma view que liste os produtos do tipo lavanderia ou restaurante que possuem valor entre R$ 10,00 e 50,00.*/
 CREATE VIEW ProdutosLR(id, tipo, nome, valor) AS
             SELECT p.id, p.tipo, p.nome, p.valor
             FROM PRODUTO p
             WHERE (p.tipo = 'lavanderia' OR p.tipo = 'restaurante') AND p.valor BETWEEN 10.00 AND 50.00
--- 13
+	    
+/*13. Modifique a tabela CLIENTE, adicionando uma restrição de integridade que valide se a coluna EMAIL
+está no formato “<nome>@<domínio>.<extensão>”, onde <nome> é uma cadeia de caracteres alfanuméricos e
+podendo conter underlines (_), <domínio> é uma cadeia de caracteres alfanuméricos e <extensão> é
+uma cadeia de caracteres de A até Z.
+Assuma que todos os caracteres das cadeias previamente descritas são minúsculos.*/
 ALTER TABLE CLIENTE ADD CONSTRAINT verificaemail CHECK(REGEXP_LIKE(email, '\w+@[a-z0-9]+\.[a-z]+'))
 
--- 14
+/*14. Crie um trigger que impeça que um dependente possua CPF igual ao cliente.*/
 CREATE OR REPLACE TRIGGER verifica_cpf
 BEFORE INSERT
   on DEPENDENTE
@@ -87,7 +101,8 @@ BEGIN
       RAISE_APPLICATION_ERROR(-20000,'O dependente não pode ter cpf igual o cliente.');
     END IF;
 END;
--- 15
+
+/*15. Crie um trigger que remova os dependentes de um cliente quando o mesmo for removido.*/							   
 CREATE OR REPLACE TRIGGER Delete_Dependente
 BEFORE DELETE
   on CLIENTE
@@ -96,7 +111,11 @@ BEFORE DELETE
 BEGIN
 DELETE FROM DEPENDENTE d WHERE d.cpf_cliente = :OLD.cpf;
 END;
--- 16
+								   
+/*16. Crie uma stored procedure chamada atualizaPrecosDiariasByTipo que deve atualizar os preços
+das diárias de todos os quartos de um determinado tipo (informado como parâmetro da procedure).
+A procedure deve aplicar um percentual (também informado como parâmetro da procedure) no valor da diária.
+É obrigatório o uso de CURSOR. Coloque no script também o código de como executar a procedure.*/
 CREATE OR REPLACE PROCEDURE atualizaPrecosDiariasByTipo(percentual FLOAT, tipoQ QUARTO.tipo%TYPE) AS
   CURSOR c_quarto IS 
     SELECT numero FROM QUARTO WHERE tipo = tipoQ FOR UPDATE;
@@ -111,15 +130,18 @@ BEGIN
 
   CLOSE c_quarto;
 END;
-/
--- Executa procedure
+						      
+/*Código para executar a procedure definida em (16).*/
 DECLARE
   percentual NUMBER;
   tipo QUARTO.tipo%TYPE;
 BEGIN
   atualizaPrecosDiariasByTipo(percentual, tipo);
 END;
--- 17
+						      
+/*17. Crie uma stored procedure chamada getManutencoesByPeriodo que mostra todas as manutenções de quartos do hotel
+entre duas datas informadas como parâmetros da procedure.
+Coloque no script também o código de como executar a procedure.*/
 CREATE OR REPLACE PROCEDURE getManutencoesByPeriodo(
 	   dataInicial IN MANUTENCAO.data%TYPE,
            dataFinal IN MANUTENCAO.data%TYPE,
@@ -131,8 +153,8 @@ BEGIN
   SELECT * FROM MANUTENCAO WHERE data BETWEEN dataInicial AND dataFinal;
  
 END;
-/
--- Executa procedure
+					      
+/*Código para executar a procedure definida em (17).*/
 DECLARE 
   dbManutencaoCursor SYS_REFCURSOR;
   dbManutencao MANUTENCAO%ROWTYPE;
