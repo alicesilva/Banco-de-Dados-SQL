@@ -1,5 +1,5 @@
 /*Grupo 2
-Alice Fernandes
+Alice Fernandes Silva
 Anarco Quaresma Zeferino Nascimento
 Aramis Sales Araujo
 Eveline de Carvalho
